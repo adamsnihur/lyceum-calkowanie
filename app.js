@@ -4,7 +4,31 @@
  */
 
 document.addEventListener("DOMContentLoaded", () => {
-  // 1. Inicjalizacja KaTeX Auto-Render
+  // 1. Setup Sticky Sidebar IntersectionObserver
+  setupSidebarNavigation();
+
+  // 2. Moduł 1: Pętla Motion 60 FPS
+  initHeroMotionLoop();
+
+  // 3. Moduł 2: Laboratorium Sum Riemanna
+  initRiemannLab();
+
+  // 4. Moduł 3: Wizualizator Luki Darboux
+  initDarbouxVisualizer();
+
+  // 5. Moduł 4: Badanie Zbieżności Plotly & Tabela
+  initConvergenceBenchmark();
+
+  // 6. Moduł 5: Demonstrator Lebesgue vs Riemann
+  initLebesgueDemonstrator();
+
+  // 7. Moduł 7: Quiz Diagnostyczny
+  initQuizModule();
+
+  // 8. Moduł 8: Kopiowanie Kodu
+  initCodeCopyButton();
+
+  // 9. Całościowa Inicjalizacja KaTeX Auto-Render po zbudowaniu całego drzewa DOM
   if (window.renderMathInElement) {
     renderMathInElement(document.body, {
       delimiters: [
@@ -16,30 +40,6 @@ document.addEventListener("DOMContentLoaded", () => {
       throwOnError: false
     });
   }
-
-  // 2. Setup Sticky Sidebar IntersectionObserver
-  setupSidebarNavigation();
-
-  // 3. Moduł 1: Pętla Motion 60 FPS
-  initHeroMotionLoop();
-
-  // 4. Moduł 2: Laboratorium Sum Riemanna
-  initRiemannLab();
-
-  // 5. Moduł 3: Wizualizator Luki Darboux
-  initDarbouxVisualizer();
-
-  // 6. Moduł 4: Badanie Zbieżności Plotly & Tabela
-  initConvergenceBenchmark();
-
-  // 7. Moduł 5: Demonstrator Lebesgue vs Riemann
-  initLebesgueDemonstrator();
-
-  // 8. Moduł 7: Quiz Diagnostyczny
-  initQuizModule();
-
-  // 9. Moduł 8: Kopiowanie Kodu
-  initCodeCopyButton();
 });
 
 /* ==========================================================================
@@ -897,7 +897,20 @@ function initQuizModule() {
           if (b) b.classList.add("disabled");
         });
 
-        if (expDiv) expDiv.classList.remove("hidden");
+        if (expDiv) {
+          expDiv.classList.remove("hidden");
+          if (window.renderMathInElement) {
+            renderMathInElement(expDiv, {
+              delimiters: [
+                { left: "$$", right: "$$", display: true },
+                { left: "$", right: "$", display: false },
+                { left: "\\[", right: "\\]", display: true },
+                { left: "\\(", right: "\\)", display: false }
+              ],
+              throwOnError: false
+            });
+          }
+        }
         scoreText.textContent = `${score} / ${questions.length}`;
       });
 
@@ -915,6 +928,19 @@ function initQuizModule() {
 
     container.appendChild(qCard);
   });
+
+  // Renderowanie KaTeX dla pytań i opcji quizu
+  if (window.renderMathInElement) {
+    renderMathInElement(container, {
+      delimiters: [
+        { left: "$$", right: "$$", display: true },
+        { left: "$", right: "$", display: false },
+        { left: "\\[", right: "\\]", display: true },
+        { left: "\\(", right: "\\)", display: false }
+      ],
+      throwOnError: false
+    });
+  }
 }
 
 /* ==========================================================================

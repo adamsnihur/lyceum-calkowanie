@@ -30,6 +30,40 @@ async def run_tests():
         print(f"KaTeX rendered elements count: {katex_count}")
         assert katex_count > 10, f"KaTeX elements did not render properly! Count: {katex_count}"
 
+        # Unrendered LaTeX Syntax Gate (brak surowych formuł $...\...$ w DOM)
+        print("Running Unrendered LaTeX Syntax Gate...")
+        unrendered_latex = await page.evaluate('''() => {
+            const issues = [];
+            const walker = document.createTreeWalker(
+                document.body,
+                NodeFilter.SHOW_TEXT,
+                {
+                    acceptNode: (node) => {
+                        const parentTag = node.parentElement ? node.parentElement.tagName.toLowerCase() : '';
+                        if (['script', 'style', 'pre', 'code'].includes(parentTag)) {
+                            return NodeFilter.FILTER_REJECT;
+                        }
+                        return NodeFilter.FILTER_ACCEPT;
+                    }
+                }
+            );
+
+            const latexRegex = /\\$[^$]+(?:\\[a-zA-Z]+|\\^|_)[^$]*\\$/;
+            let node;
+            while ((node = walker.nextNode())) {
+                const text = node.textContent;
+                if (latexRegex.test(text)) {
+                    issues.push({
+                        text: text.trim().substring(0, 100),
+                        parent: node.parentElement ? node.parentElement.tagName + '.' + (node.parentElement.className || '') : 'unknown'
+                    });
+                }
+            }
+            return issues;
+        }''')
+        print(f"Unrendered LaTeX issues found: {len(unrendered_latex)}")
+        assert len(unrendered_latex) == 0, f"Found unrendered LaTeX formulas in DOM: {unrendered_latex}"
+
         # 1. Test Module 1 Motion Loop Toggle
         print("Testing Module 1 Motion Loop...")
         btn_motion = page.locator("#btnToggleMotion")
