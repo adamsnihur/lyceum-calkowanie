@@ -572,8 +572,8 @@ function initConvergenceBenchmark() {
 
   const f = (x) => Math.sin(x);
   const a = 0.0;
-  const b = Math.PI;
-  const trueVal = 2.0;
+  const b = Math.PI / 2.0;
+  const trueVal = 1.0;
 
   const nValues = [4, 8, 16, 32, 64, 128];
   const leftErrors = [];
@@ -622,7 +622,7 @@ function initConvergenceBenchmark() {
         <td class="p-2">${leftSum.toFixed(5)} <span class="text-rose-500 text-[10px]">(${errLeft.toExponential(1)})</span></td>
         <td class="p-2">${trapSum.toFixed(5)} <span class="text-amber-500 text-[10px]">(${errTrap.toExponential(1)})</span></td>
         <td class="p-2 text-emerald-600 font-bold">${simpSum.toFixed(6)} <span class="text-[10px]">(${errSimp.toExponential(1)})</span></td>
-        <td class="p-2 text-slate-400">2.000000</td>
+        <td class="p-2 text-slate-400">1.000000</td>
       </tr>
     `;
   });
@@ -655,15 +655,19 @@ function initConvergenceBenchmark() {
   };
 
   const layout = {
-    margin: { t: 30, r: 25, b: 40, l: 55 },
+    margin: { t: 30, r: 25, b: 45, l: 68 },
     xaxis: {
       type: "log",
-      title: "Liczba podziałów (N)",
+      title: { text: "Liczba podziałów (<i>N</i>)" },
+      tickvals: [4, 8, 16, 32, 64, 128],
+      ticktext: ["4", "8", "16", "32", "64", "128"],
       gridcolor: "#e2e8f0"
     },
     yaxis: {
       type: "log",
-      title: "Błąd bezwzględny |I_num - I_true|",
+      title: { text: "Błąd bezwzględny |<i>I</i><sub>num</sub> − <i>I</i><sub>dokł</sub>|" },
+      exponentformat: "power",
+      showexponent: "all",
       gridcolor: "#e2e8f0"
     },
     legend: {
