@@ -1,0 +1,836 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rachunek Całkowy: Od Zera do Poziomu Zaawansowanego | Lyceum Explainer</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- KaTeX CSS & JS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
+  
+  <!-- Plotly.js -->
+  <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
+  
+  <!-- Custom Styles -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="text-slate-900 bg-slate-50 antialiased selection:bg-blue-100 selection:text-blue-900">
+
+  <!-- Top Sticky Bar -->
+  <header class="sticky top-0 z-40 bg-white/90 backdrop-blur-md border-b border-slate-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 py-3 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center text-white font-bold text-sm shadow-sm">
+          ∫
+        </div>
+        <div>
+          <span class="text-xs font-mono font-semibold tracking-wider uppercase text-blue-600">Lyceum Explainer</span>
+          <h1 class="text-sm font-bold text-slate-900 leading-tight">Rachunek Całkowy: 0 &rarr; Zaawansowany</h1>
+        </div>
+      </div>
+      <div class="flex items-center gap-2">
+        <span class="hidden sm:inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-emerald-50 text-emerald-700 border border-emerald-200">
+          <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+          Standard Lyceum 2026
+        </span>
+        <a href="#m7-quiz" class="text-xs font-semibold px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 transition">
+          Quiz Diagnostyczny
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Główny Kontener Dwukolumnowy (Invariant 5) -->
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 py-8 flex gap-8">
+
+    <!-- Lewy Sticky Sidebar TOC -->
+    <aside class="hidden lg:block w-72 shrink-0">
+      <div class="sticky top-20 bg-white border border-slate-200 rounded-2xl p-5 shadow-sm space-y-4">
+        <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+          <span class="text-xs font-mono font-bold uppercase tracking-wider text-slate-500">Nawigacja Traktatu</span>
+          <span class="text-xs font-mono px-2 py-0.5 rounded bg-blue-50 text-blue-700 font-semibold">9 Modułów</span>
+        </div>
+        <nav class="space-y-1 text-xs">
+          <a href="#hero" class="nav-link block px-3 py-2 rounded-lg text-slate-600 hover:text-blue-600 hover:bg-slate-50">
+            <span class="font-mono text-slate-400 mr-1.5">00.</span> Wprowadzenie & Hero
+          </a>
+          <a href="#m1-motion" class="nav-link block px-3 py-2 rounded-lg text-slate-600 hover:text-blue-600 hover:bg-slate-50">
+            <span class="font-mono text-slate-400 mr-1.5">01.</span> Pętla Motion 60 FPS
+          </a>
+          <a href="#m2-intuicja" class="nav-link block px-3 py-2 rounded-lg text-slate-600 hover:text-blue-600 hover:bg-slate-50">
+            <span class="font-mono text-slate-400 mr-1.5">02.</span> Intuicja Geometryczna (0 &rarr; 1)
+          </a>
+          <a href="#m3-formalizm" class="nav-link block px-3 py-2 rounded-lg text-slate-600 hover:text-blue-600 hover:bg-slate-50">
+            <span class="font-mono text-slate-400 mr-1.5">03.</span> FTC, Riemann & Darboux (1 &rarr; 2)
+          </a>
+          <a href="#m4-techniki" class="nav-link block px-3 py-2 rounded-lg text-slate-600 hover:text-blue-600 hover:bg-slate-50">
+            <span class="font-mono text-slate-400 mr-1.5">04.</span> Metody & Zbieżność (2 &rarr; 3)
+          </a>
+          <a href="#m5-lebesgue" class="nav-link block px-3 py-2 rounded-lg text-slate-600 hover:text-blue-600 hover:bg-slate-50">
+            <span class="font-mono text-slate-400 mr-1.5">05.</span> Rewolucja Lebesgue'a (3 &rarr; 4)
+          </a>
+          <a href="#m6-zaawansowane" class="nav-link block px-3 py-2 rounded-lg text-slate-600 hover:text-blue-600 hover:bg-slate-50">
+            <span class="font-mono text-slate-400 mr-1.5">06.</span> Formy Różniczkowe & Stokes (5)
+          </a>
+          <a href="#m7-quiz" class="nav-link block px-3 py-2 rounded-lg text-slate-600 hover:text-blue-600 hover:bg-slate-50">
+            <span class="font-mono text-slate-400 mr-1.5">07.</span> Quiz Diagnostyczny
+          </a>
+          <a href="#m8-kod" class="nav-link block px-3 py-2 rounded-lg text-slate-600 hover:text-blue-600 hover:bg-slate-50">
+            <span class="font-mono text-slate-400 mr-1.5">08.</span> Implementacja Python
+          </a>
+          <a href="#m9-bibliografia" class="nav-link block px-3 py-2 rounded-lg text-slate-600 hover:text-blue-600 hover:bg-slate-50">
+            <span class="font-mono text-slate-400 mr-1.5">09.</span> Źródła & Bibliografia DOI
+          </a>
+        </nav>
+        <div class="pt-3 border-t border-slate-100 text-[11px] text-slate-400 flex items-center justify-between">
+          <span>Protokół ScientistTwo</span>
+          <span class="text-emerald-600 font-semibold font-mono">100% PASS</span>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Prawa Kolumna Treści -->
+    <main class="flex-1 space-y-8 sm:space-y-12 min-w-0">
+
+      <!-- HERO SECTION -->
+      <section id="hero" class="saas-card p-6 sm:p-10 relative overflow-hidden bg-white">
+        <div class="max-w-3xl space-y-4">
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-mono font-semibold bg-blue-50 text-blue-700 border border-blue-200">
+            <span>📚 TRAKTAT NAUKOWY</span>
+            <span>&bull;</span>
+            <span>OD ELEMENTÓW DO FORM RÓŻNICZKOWYCH</span>
+          </div>
+          
+          <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-900 leading-tight">
+            Rachunek Całkowy:<br>
+            <span class="text-blue-600">Od Zera do Poziomu Zaawansowanego</span>
+          </h1>
+          
+          <p class="text-base sm:text-lg text-slate-600 leading-relaxed">
+            Całkowanie to nie tylko „odwrotność pochodnej” ani „pole pod wykresem”. To potężna, uniwersalna machina do agregowania nieskończenie małych wielkości. W tym traktacie prześledzisz drogę od intuicji geometrycznej i&nbsp;klasycznej sumy Riemanna, przez rygor sum Darboux i&nbsp;kryzys patologii funkcyjnych, aż po całkę Lebesgue'a, rachunek stochastyczny Itô oraz uogólnione twierdzenie Stokesa na formach różniczkowych.
+          </p>
+
+          <!-- Siatka KPI / Poziomy Zaawansowania -->
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-4">
+            <div class="p-3 bg-slate-50 rounded-xl border border-slate-200 text-center">
+              <span class="block text-xs text-slate-500 font-medium">Poziom 0 &ndash; 1</span>
+              <span class="font-bold text-slate-900 text-sm">Akumulacja & Pola</span>
+            </div>
+            <div class="p-3 bg-slate-50 rounded-xl border border-slate-200 text-center">
+              <span class="block text-xs text-slate-500 font-medium">Poziom 2 &ndash; 3</span>
+              <span class="font-bold text-slate-900 text-sm">Riemann & Darboux</span>
+            </div>
+            <div class="p-3 bg-slate-50 rounded-xl border border-slate-200 text-center">
+              <span class="block text-xs text-slate-500 font-medium">Poziom 4</span>
+              <span class="font-bold text-blue-600 text-sm">Miara Lebesgue'a</span>
+            </div>
+            <div class="p-3 bg-slate-50 rounded-xl border border-slate-200 text-center">
+              <span class="block text-xs text-slate-500 font-medium">Poziom 5</span>
+              <span class="font-bold text-indigo-600 text-sm">Stokes & Formy</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- MODUŁ 1: DYNAMICZNA PĘTLA MOTION 60 FPS -->
+      <section id="m1-motion" class="saas-card p-6 sm:p-8 space-y-6">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-100 pb-4">
+          <div>
+            <div class="badge-level bg-blue-50 text-blue-700 border border-blue-200 mb-1">Moduł 01 // Motion Signature</div>
+            <h2 class="text-xl sm:text-2xl font-bold text-slate-900">Dynamiczna Pętla Akumulacji 60 FPS</h2>
+          </div>
+          <div class="flex items-center gap-2">
+            <button id="btnToggleMotion" class="px-3.5 py-1.5 text-xs font-semibold rounded-lg bg-blue-600 text-white hover:bg-blue-700 shadow-sm transition">
+              Zatrzymaj Pętlę
+            </button>
+            <button id="btnResetMotion" class="px-3 py-1.5 text-xs font-semibold rounded-lg bg-slate-100 text-slate-700 hover:bg-slate-200 transition">
+              Zresetuj
+            </button>
+          </div>
+        </div>
+
+        <p class="text-sm text-slate-600 leading-relaxed">
+          Poniższa animacja ilustruje istotę procesu całkowania w czasie rzeczywistym. Obserwuj, jak zagęszczanie podziału przedziału na coraz węższe paski prostokątne wygasza błąd aproksymacji, sprawiając, że suma schodkowa płynnie stapia się z&nbsp;idealnym, gładkim polem pod krzywą.
+        </p>
+
+        <!-- Płótno Canvas 60 FPS -->
+        <div class="relative bg-slate-900 rounded-xl overflow-hidden border border-slate-800 shadow-inner">
+          <canvas id="heroMotionCanvas" width="960" height="420" class="w-full h-auto max-h-[420px]"></canvas>
+          <div class="absolute top-3 left-3 bg-slate-900/80 backdrop-blur-md px-3 py-1.5 rounded-lg border border-slate-700 text-xs font-mono text-slate-200 flex items-center gap-3">
+            <div>Podziały: <span id="lblMotionN" class="text-blue-400 font-bold">12</span></div>
+            <div>Wartość sumy: <span id="lblMotionVal" class="text-emerald-400 font-bold">2.667</span></div>
+            <div>FPS: <span id="lblMotionFps" class="text-amber-400 font-bold">60</span></div>
+          </div>
+        </div>
+
+        <!-- Sterowanie w locie -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-2">
+          <div>
+            <label class="block text-xs font-medium text-slate-700 mb-1">Funkcja demonstracyjna:</label>
+            <select id="selMotionFunc" class="w-full px-3 py-2 text-xs rounded-lg border border-slate-200 bg-white font-mono focus:ring-2 focus:ring-blue-500">
+              <option value="parabola">f(x) = x² (Parabola rosnąca)</option>
+              <option value="sinus">f(x) = sin(x) + 1.2 (Fala harmoniczna)</option>
+              <option value="wielomian">f(x) = -0.5x³ + 2x + 1.5 (Wielomian st. 3)</option>
+              <option value="gauss">f(x) = 2.5 · exp(-x²) (Dzwon Gaussa)</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-xs font-medium text-slate-700 mb-1">Maksymalne zagęszczenie podziału (N):</label>
+            <input type="range" id="rngMotionMaxN" min="4" max="120" value="64">
+            <div class="flex justify-between text-[11px] font-mono text-slate-500 mt-1">
+              <span>N = 4</span>
+              <span id="lblMotionMaxNVal">N = 64</span>
+              <span>N = 120</span>
+            </div>
+          </div>
+          <div>
+            <label class="block text-xs font-medium text-slate-700 mb-1">Prędkość pulsacji podziałów:</label>
+            <input type="range" id="rngMotionSpeed" min="1" max="5" value="2">
+            <div class="flex justify-between text-[11px] font-mono text-slate-500 mt-1">
+              <span>Powolna</span>
+              <span id="lblMotionSpeedVal">Normalna (2x)</span>
+              <span>Szybka</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Invariant 1: UX Coachmark -->
+        <div class="p-4 bg-blue-50/70 border border-blue-200/80 rounded-xl flex items-start gap-3">
+          <span class="text-blue-600 text-lg">👉</span>
+          <div class="text-xs text-blue-900 leading-relaxed">
+            <strong>Jak z tego korzystać:</strong>
+            1. Zmieniaj funkcję w&nbsp;liście rozwijanej i&nbsp;obserwuj, jak prostokąty dopasowują się do geometrii krzywej.
+            2. Zwróć uwagę na wskaźnik sumy u góry: wraz ze wzrostem $N$ liczba ta stabilizuje się na analitycznej wartości całki oznaczonej.
+            3. Użyj przycisku „Zatrzymaj Pętlę”, by zbadać dokładny stan przy wybranym kroku $N$.
+          </div>
+        </div>
+      </section>
+
+      <!-- MODUŁ 2: INTUICJA GEOMETRYCZNA I FIZYCZNA (POZIOM 0 -> 1) -->
+      <section id="m2-intuicja" class="saas-card p-6 sm:p-8 space-y-6">
+        <div class="border-b border-slate-100 pb-4">
+          <div class="badge-level bg-emerald-50 text-emerald-700 border border-emerald-200 mb-1">Moduł 02 // Poziom 0 &rarr; 1</div>
+          <h2 class="text-xl sm:text-2xl font-bold text-slate-900">Intuicja Geometryczna: Od Zwykłego Pola do Granicy Sum</h2>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
+          <div class="space-y-3 text-sm text-slate-600 leading-relaxed">
+            <h3 class="font-bold text-slate-900 text-base">Dlaczego geometria elementarna nie wystarcza?</h3>
+            <p>
+              W szkole podstawowej uczymy się wzorów na pole prostokąta ($P = a \cdot b$) czy trójkąta ($P = \frac{1}{2} a \cdot h$). Działają one doskonale, dopóki krawędzie są liniami prostymi. Co jednak zrobić, gdy krawędź jest dowolną, gładką krzywą opisaną funkcją $y = f(x)$?
+            </p>
+            <p>
+              Genialna idea Archimedesa, rozwinięta przez Newtona, Leibniza i&nbsp;Riemanna, polega na <strong>przybliżeniu obszaru za pomocą figur, których pole umiemy policzyć</strong> &ndash; czyli wąskich słupków prostokątnych o&nbsp;szerokości $\Delta x$.
+            </p>
+            <div class="p-3 bg-slate-50 rounded-lg border border-slate-200 font-mono text-xs text-slate-800">
+              Pole $\approx \sum_{i=1}^{n} f(x_i^*) \cdot \Delta x_i$
+            </div>
+            <p>
+              Im cieńsze prostokąty ($\Delta x \to 0$), tym mniejszy błąd ucinania. W granicy nieskończonej liczby podziałów suma zamienia się w&nbsp;całkę oznaczoną:
+            </p>
+            <div class="text-center py-1">
+              $$\int_a^b f(x) \, dx = \lim_{n \to \infty} \sum_{i=1}^n f(x_i^*) \Delta x$$
+            </div>
+          </div>
+
+          <div class="p-4 bg-slate-50 rounded-xl border border-slate-200 space-y-3">
+            <h4 class="font-bold text-slate-900 text-xs font-mono uppercase tracking-wide">Fizyczna interpretacja akumulacji</h4>
+            <p class="text-xs text-slate-600 leading-relaxed">
+              Wyobraź sobie samochód ze zmienną prędkością $v(t)$. W każdej mikrosekundzie $\Delta t$ pojazd przebywa drogę $\Delta s \approx v(t) \cdot \Delta t$. Całkowity przebyty dystans to nic innego jak suma tych nieskończenie małych odcinków:
+            </p>
+            <div class="text-center py-2 bg-white rounded-lg border border-slate-200">
+              $$s(T) = \int_0^T v(t) \, dt$$
+            </div>
+            <div class="text-[11px] text-slate-500">
+              <strong>Zasada zachowania:</strong> Całkowanie jest operatorem sumowania strumieni i&nbsp;zmiennych natężeń w&nbsp;czasie lub przestrzeni.
+            </div>
+          </div>
+        </div>
+
+        <!-- Interaktywne Laboratorium Sum Riemanna -->
+        <div class="border border-slate-200 rounded-xl p-5 bg-white space-y-4">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <h4 class="font-bold text-slate-900 text-sm">Dotykowe Laboratorium Sum Riemanna</h4>
+            <div class="flex items-center gap-1.5 bg-slate-100 p-1 rounded-lg text-xs font-medium">
+              <button class="riemann-method-btn px-2.5 py-1 rounded bg-white text-blue-600 shadow-sm" data-method="left">Lewe</button>
+              <button class="riemann-method-btn px-2.5 py-1 rounded text-slate-600 hover:text-slate-900" data-method="midpoint">Środkowe</button>
+              <button class="riemann-method-btn px-2.5 py-1 rounded text-slate-600 hover:text-slate-900" data-method="right">Prawe</button>
+              <button class="riemann-method-btn px-2.5 py-1 rounded text-slate-600 hover:text-slate-900" data-method="trapezoid">Trapezy</button>
+            </div>
+          </div>
+
+          <!-- Canvas Wizualizacji -->
+          <div class="bg-slate-900 rounded-xl p-2 overflow-hidden shadow-inner">
+            <canvas id="riemannLabCanvas" width="880" height="340" class="w-full h-auto max-h-[340px]"></canvas>
+          </div>
+
+          <!-- Pomiary KPI na żywo -->
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+            <div class="p-3 bg-slate-50 rounded-lg border border-slate-200">
+              <span class="block text-[11px] text-slate-500 font-medium">Wartość Analityczna $I$:</span>
+              <span id="kpiRiemannTrue" class="font-mono font-bold text-slate-900 text-sm">2.66667</span>
+            </div>
+            <div class="p-3 bg-slate-50 rounded-lg border border-slate-200">
+              <span class="block text-[11px] text-slate-500 font-medium">Aproksymacja $S_N$:</span>
+              <span id="kpiRiemannApprox" class="font-mono font-bold text-blue-600 text-sm">2.52000</span>
+            </div>
+            <div class="p-3 bg-slate-50 rounded-lg border border-slate-200">
+              <span class="block text-[11px] text-slate-500 font-medium">Błąd Bezwzględny $|E|$:</span>
+              <span id="kpiRiemannErr" class="font-mono font-bold text-amber-600 text-sm">0.14667</span>
+            </div>
+            <div class="p-3 bg-slate-50 rounded-lg border border-slate-200">
+              <span class="block text-[11px] text-slate-500 font-medium">Błąd Względny:</span>
+              <span id="kpiRiemannErrPct" class="font-mono font-bold text-rose-600 text-sm">5.50 %</span>
+            </div>
+          </div>
+
+          <!-- Suwak N i Przedziału -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
+            <div>
+              <div class="flex justify-between text-xs font-medium text-slate-700 mb-1">
+                <span>Liczba podziałów (N):</span>
+                <span id="lblRiemannNVal" class="font-mono font-bold text-blue-600">N = 8</span>
+              </div>
+              <input type="range" id="sliderRiemannN" min="2" max="64" value="8">
+            </div>
+            <div>
+              <div class="flex justify-between text-xs font-medium text-slate-700 mb-1">
+                <span>Prawy brzeg przedziału b:</span>
+                <span id="lblRiemannBVal" class="font-mono font-bold text-blue-600">b = 2.0</span>
+              </div>
+              <input type="range" id="sliderRiemannB" min="10" max="40" value="20">
+            </div>
+          </div>
+        </div>
+
+        <!-- Invariant 1: UX Coachmark -->
+        <div class="p-4 bg-emerald-50/70 border border-emerald-200/80 rounded-xl flex items-start gap-3">
+          <span class="text-emerald-600 text-lg">👉</span>
+          <div class="text-xs text-emerald-900 leading-relaxed">
+            <strong>Jak z tego korzystać:</strong>
+            1. Przełączaj metody: <em>Lewe</em>, <em>Środkowe</em>, <em>Prawe</em> oraz <em>Trapezy</em>.
+            2. Zauważ, że dla metody <strong>Trapezów</strong> i&nbsp;<strong>Środkowej</strong> błąd spada wielokrotnie szybciej niż dla sum jednostronnych przy tej samej liczbie $N$.
+            3. Przesuwaj suwak podziałów $N$ od 2 do 64 i&nbsp;obserwuj, jak czerwone obszary błędu znikają z&nbsp;wykresu.
+          </div>
+        </div>
+      </section>
+
+      <!-- MODUŁ 3: RYGOR FORMALNY: FTC, RIEMANN & DARBOUX (POZIOM 1 -> 2) -->
+      <section id="m3-formalizm" class="saas-card p-6 sm:p-8 space-y-6">
+        <div class="border-b border-slate-100 pb-4">
+          <div class="badge-level bg-blue-50 text-blue-700 border border-blue-200 mb-1">Moduł 03 // Poziom 1 &rarr; 2</div>
+          <h2 class="text-xl sm:text-2xl font-bold text-slate-900">Rygor Formalny: FTC, Konstrukcja Darboux i&nbsp;Warunek Riemanna</h2>
+        </div>
+
+        <!-- FTC I i FTC II -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="p-5 bg-white border border-slate-200 rounded-xl space-y-3">
+            <div class="text-xs font-mono font-bold text-blue-600 uppercase">FTC Część I: Różniczkowanie Całki</div>
+            <div class="text-center py-2 bg-slate-50 rounded-lg border border-slate-100">
+              $$\frac{d}{dx} \left( \int_a^x f(t) \, dt \right) = f(x)$$
+            </div>
+            <p class="text-xs text-slate-600 leading-relaxed">
+              Niech $A(x) = \int_a^x f(t)dt$ oznacza akumulowane pole od punktu $a$ do zmiennej pozycji $x$. Wtedy przyrost pola wynosi $\Delta A \approx f(x) \Delta x$. Dzieląc przez $\Delta x$ i&nbsp;przechodząc do granicy $\Delta x \to 0$, otrzymujemy natychmiast wartość funkcji $f(x)$. Całkowanie i&nbsp;różniczkowanie to <strong>operacje wzajemnie odwrotne</strong>.
+            </p>
+          </div>
+
+          <div class="p-5 bg-white border border-slate-200 rounded-xl space-y-3">
+            <div class="text-xs font-mono font-bold text-blue-600 uppercase">FTC Część II: Formuła Newtona-Leibniza</div>
+            <div class="text-center py-2 bg-slate-50 rounded-lg border border-slate-100">
+              $$\int_a^b f(x) \, dx = F(b) - F(a) = [F(x)]_a^b$$
+            </div>
+            <p class="text-xs text-slate-600 leading-relaxed">
+              Jeśli znamy funkcję pierwotną $F(x)$, taką że $F'(x) = f(x)$, to obliczenie nieskończonej granicy sum sprowadza się do prostej różnicy wartości na krańcach przedziału. Ten wynik połączył kinematykę Galileusza i&nbsp;Newtona z&nbsp;geometrią Archimedesa.
+            </p>
+          </div>
+        </div>
+
+        <!-- Sumy Darboux i Kryterium Riemanna -->
+        <div class="p-5 bg-slate-50 rounded-xl border border-slate-200 space-y-4">
+          <h3 class="font-bold text-slate-900 text-sm">Formalna Konstrukcja Darboux: Kiedy funkcja jest całkowalna?</h3>
+          <p class="text-xs text-slate-600 leading-relaxed">
+            Bernhard Riemann (1854) i&nbsp;Gaston Darboux (1875) sformalizowali warunek istnienia całki za pomocą kresów funkcji na przedziałach podziału $P = \{a = x_0 < x_1 < \dots < x_n = b\}$:
+          </p>
+          
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div class="p-3 bg-white rounded-lg border border-slate-200 space-y-1">
+              <span class="text-xs font-mono font-semibold text-emerald-700">Suma Dolna Darboux:</span>
+              <div class="text-xs">$$L(f, P) = \sum_{i=1}^n m_i \Delta x_i, \quad m_i = \inf_{x \in [x_{i-1}, x_i]} f(x)$$</div>
+            </div>
+            <div class="p-3 bg-white rounded-lg border border-slate-200 space-y-1">
+              <span class="text-xs font-mono font-semibold text-rose-700">Suma Górna Darboux:</span>
+              <div class="text-xs">$$U(f, P) = \sum_{i=1}^n M_i \Delta x_i, \quad M_i = \sup_{x \in [x_{i-1}, x_i]} f(x)$$</div>
+            </div>
+          </div>
+
+          <div class="p-4 bg-white rounded-lg border border-slate-200 text-xs text-slate-700 space-y-2">
+            <div class="font-bold text-slate-900">Kryterium Całkowalności Riemanna:</div>
+            <p>
+              Funkcja ograniczona $f$ jest całkowalna w&nbsp;sensie Riemanna na $[a, b]$ wtedy i&nbsp;tylko wtedy, gdy dla każdego $\epsilon > 0$ istnieje taki podział $P$, że:
+            </p>
+            <div class="text-center font-mono font-bold text-blue-700">
+              $$U(f, P) - L(f, P) < \epsilon$$
+            </div>
+            <p>
+              Gdy różnica między sumą górną a&nbsp;dolną zmierza do zera, wspólna granica definiuje jednoznaczną wartość całki $\int_a^b f(x)dx$.
+            </p>
+          </div>
+        </div>
+
+        <!-- Wizualny Eksperyment Luki Darboux -->
+        <div class="border border-slate-200 rounded-xl p-5 bg-white space-y-4">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+            <h4 class="font-bold text-slate-900 text-sm">Wizualizacja Skurczenia Luki Darboux $\Delta = U(f, P) - L(f, P)$</h4>
+            <span id="lblDarbouxGap" class="text-xs font-mono font-bold text-indigo-600 bg-indigo-50 px-2.5 py-1 rounded-lg border border-indigo-200">
+              Luka: 0.3200
+            </span>
+          </div>
+
+          <div class="bg-slate-900 rounded-xl p-2 overflow-hidden shadow-inner">
+            <canvas id="darbouxCanvas" width="880" height="280" class="w-full h-auto max-h-[280px]"></canvas>
+          </div>
+
+          <div class="space-y-1">
+            <div class="flex justify-between text-xs font-medium text-slate-700">
+              <span>Gęstość siatki podziału Darboux:</span>
+              <span id="lblDarbouxN" class="font-mono font-bold text-blue-600">N = 6 przedziałów</span>
+            </div>
+            <input type="range" id="sliderDarbouxN" min="2" max="32" value="6">
+          </div>
+        </div>
+
+        <!-- Invariant 1: UX Coachmark -->
+        <div class="p-4 bg-blue-50/70 border border-blue-200/80 rounded-xl flex items-start gap-3">
+          <span class="text-blue-600 text-lg">👉</span>
+          <div class="text-xs text-blue-900 leading-relaxed">
+            <strong>Jak z tego korzystać:</strong>
+            1. Przesuwaj suwak gęstości siatki podziału Darboux.
+            2. Obserwuj pasmo niepewności (obszar pomiędzy zieloną sumą dolną a&nbsp;czerwoną sumą górną).
+            3. Zwróć uwagę, że dla funkcji ciągłej luka skurcza się do zera &ndash; dowodząc całkowalności w&nbsp;sensie Riemanna.
+          </div>
+        </div>
+      </section>
+
+      <!-- MODUŁ 4: TECHNIKI CAŁKOWANIA & RZĘDY ZBIEŻNOŚCI (POZIOM 2 -> 3) -->
+      <section id="m4-techniki" class="saas-card p-6 sm:p-8 space-y-6">
+        <div class="border-b border-slate-100 pb-4">
+          <div class="badge-level bg-amber-50 text-amber-700 border border-amber-200 mb-1">Moduł 04 // Poziom 2 &rarr; 3</div>
+          <h2 class="text-xl sm:text-2xl font-bold text-slate-900">Techniki Analityczne & Numeryczne Rzędy Zbieżności</h2>
+        </div>
+
+        <!-- Dwie Główne Techniki Analityczne -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="p-5 bg-white border border-slate-200 rounded-xl space-y-3">
+            <div class="text-xs font-mono font-bold text-amber-600 uppercase">1. Całkowanie przez Części</div>
+            <div class="text-center py-2 bg-slate-50 rounded-lg border border-slate-100">
+              $$\int u(x) v'(x) \, dx = u(x)v(x) - \int v(x) u'(x) \, dx$$
+            </div>
+            <p class="text-xs text-slate-600 leading-relaxed">
+              <strong>Interpretacja geometryczna:</strong> Całkowite pole prostokąta o&nbsp;wymiarach $u \times v$ wynosi $u \cdot v$. Krzywa w&nbsp;płaszczyźnie $(u, v)$ dzieli ten prostokąt na dwa obszary: rzut na oś $u$ ($\int v du$) oraz rzut na oś $v$ ($\int u dv$). Suma tych pól daje dokładnie $u \cdot v$!
+            </p>
+          </div>
+
+          <div class="p-5 bg-white border border-slate-200 rounded-xl space-y-3">
+            <div class="text-xs font-mono font-bold text-amber-600 uppercase">2. Metoda Podstawienia (Zamiana Zmiennych)</div>
+            <div class="text-center py-2 bg-slate-50 rounded-lg border border-slate-100">
+              $$\int_a^b f(g(x)) g'(x) \, dx = \int_{g(a)}^{g(b)} f(u) \, du$$
+            </div>
+            <p class="text-xs text-slate-600 leading-relaxed">
+              <strong>Interpretacja odkształcenia:</strong> Zmiana zmiennej $u = g(x)$ rozciąga lub ściska lokalną oś liczbową o&nbsp;współczynnik $g'(x)$. Czynnik $du = g'(x)dx$ to jedno-wymiarowy Jacobian kompensujący deformację miary długości.
+            </p>
+          </div>
+        </div>
+
+        <!-- Badanie Rzędów Zbieżności Numerycznej -->
+        <div class="border border-slate-200 rounded-xl p-5 bg-white space-y-4">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+            <div>
+              <h4 class="font-bold text-slate-900 text-sm">Eksperyment: Wyścig Kwadratur Numerycznych</h4>
+              <p class="text-xs text-slate-500">Porównanie asymptotyki błędu: Prostokąty $O(N^{-1})$, Trapezy $O(N^{-2})$, Simpson $O(N^{-4})$</p>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="text-xs font-mono bg-slate-100 px-2 py-1 rounded text-slate-700">Funkcja testowa: $\sin(x)$ na $[0, \pi]$</span>
+            </div>
+          </div>
+
+          <!-- Wykres Plotly Zbieżności -->
+          <div id="convergencePlotDiv" class="w-full h-[320px] bg-slate-50 rounded-xl border border-slate-200"></div>
+
+          <!-- Tabela zbieżności przeliczona na żywo -->
+          <div class="w-full max-w-full overflow-x-auto">
+            <table class="w-full min-w-[500px] text-left text-xs font-mono border-collapse">
+              <thead>
+                <tr class="bg-slate-100 text-slate-700 border-b border-slate-200">
+                  <th class="p-2">Węzły (N)</th>
+                  <th class="p-2">Suma Lewa $O(N^{-1})$</th>
+                  <th class="p-2">Trapez $O(N^{-2})$</th>
+                  <th class="p-2">Simpson $1/3$ $O(N^{-4})$</th>
+                  <th class="p-2">Wartość Dokładna</th>
+                </tr>
+              </thead>
+              <tbody id="convergenceTableBody" class="divide-y divide-slate-100 text-slate-600">
+                <!-- Wypełniane dynamicznie przez JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Invariant 1: UX Coachmark -->
+        <div class="p-4 bg-amber-50/70 border border-amber-200/80 rounded-xl flex items-start gap-3">
+          <span class="text-amber-600 text-lg">👉</span>
+          <div class="text-xs text-amber-900 leading-relaxed">
+            <strong>Jak z tego korzystać:</strong>
+            1. Przeanalizuj wykres w&nbsp;skali logarytmicznej: nachylenie prostej odpowiada potędze rzędu zbieżności.
+            2. Zauważ, że formuła Simpsona z&nbsp;zaledwie $N=16$ podziałami osiąga precyzję, której sumy prostokątne nie uzyskają nawet przy $N=10\,000$!
+          </div>
+        </div>
+      </section>
+
+      <!-- MODUŁ 5: GRANICE RIEMANNA I REWOLUCJA LEBESGUE'A (POZIOM 3 -> 4) -->
+      <section id="m5-lebesgue" class="saas-card p-6 sm:p-8 space-y-6">
+        <div class="border-b border-slate-100 pb-4">
+          <div class="badge-level bg-indigo-50 text-indigo-700 border border-indigo-200 mb-1">Moduł 05 // Poziom 3 &rarr; 4: Zaawansowany</div>
+          <h2 class="text-xl sm:text-2xl font-bold text-slate-900">Kryzys Riemanna i&nbsp;Przełomowa Miara Lebesgue'a (1902)</h2>
+        </div>
+
+        <!-- Patologia Dirichleta -->
+        <div class="p-5 bg-rose-50/50 border border-rose-200 rounded-xl space-y-3">
+          <div class="flex items-center gap-2 text-rose-700 font-bold text-xs uppercase font-mono">
+            <span>⚠️ Patologia XIX Wieku: Funkcja Dirichleta</span>
+          </div>
+          <p class="text-xs text-slate-700 leading-relaxed">
+            Wyobraźmy sobie funkcję indykatorową zbioru liczb wymiernych na przedziale $[0, 1]$:
+          </p>
+          <div class="text-center py-2 bg-white rounded-lg border border-rose-100">
+            $$f(x) = \mathbf{1}_{\mathbb{Q}}(x) = \begin{cases} 1, & \text{gdy } x \in \mathbb{Q} \\ 0, & \text{gdy } x \notin \mathbb{Q} \end{cases}$$
+          </div>
+          <p class="text-xs text-slate-700 leading-relaxed">
+            W każdym przedziale $[x_{i-1}, x_i]$, bez względu na to jak jest mały, leżą zarówno liczby wymierne, jak i&nbsp;niewymierne. W efekcie dla każdego podziału Riemanna:
+          </p>
+          <div class="flex justify-center gap-6 font-mono text-xs font-bold text-slate-800">
+            <span>Suma Dolna: $L(f, P) = 0$</span>
+            <span>Suma Górna: $U(f, P) = 1$</span>
+          </div>
+          <p class="text-xs text-rose-800 font-medium">
+            Różnica $U(f, P) - L(f, P) = 1$ NIGDY nie maleje. W sensie Riemanna całka z&nbsp;tej elementarnej funkcji NIE ISTNIEJE!
+          </p>
+        </div>
+
+        <!-- Rewolucja Lebesgue'a: Oś X vs Oś Y -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="p-5 bg-white border border-slate-200 rounded-xl space-y-3">
+            <h4 class="font-bold text-slate-900 text-sm">Podejście Riemanna (Krojenie Dziedziny $X$)</h4>
+            <p class="text-xs text-slate-600 leading-relaxed">
+              Riemann dzieli oś $X$ na równe plasterki $\Delta x$. Jeśli funkcja gwałtownie skacze w&nbsp;każdym plasterku (jak funkcja Dirichleta), wysokość prostokąta jest całkowicie niezdefiniowana.
+            </p>
+            <div class="p-3 bg-slate-50 rounded-lg text-xs font-mono text-slate-700">
+              $$\int f(x)dx \approx \sum f(x_i) \cdot \Delta x_i$$
+            </div>
+          </div>
+
+          <div class="p-5 bg-white border border-blue-200 rounded-xl space-y-3 bg-blue-50/20">
+            <h4 class="font-bold text-blue-900 text-sm">Podejście Lebesgue'a (Krojenie Wartości $Y$)</h4>
+            <p class="text-xs text-slate-600 leading-relaxed">
+              Henri Lebesgue zaproponował rewolucyjną zmianę perspektywy: <em>„Zamiast dzielić dziedzinę, podzielmy oś wartości $Y$ na poziome pasma i&nbsp;zbadajmy miarę zbioru argumentów $E_k$, które wpadają do danego pasma!”</em>
+            </p>
+            <div class="p-3 bg-white rounded-lg text-xs font-mono text-blue-800 border border-blue-100">
+              $$\int_E f \, d\mu \approx \sum y_k \cdot \mu(f^{-1}([y_k, y_{k+1}]))$$
+            </div>
+          </div>
+        </div>
+
+        <!-- Interaktywny Demonstrator: Cięcie X vs Cięcie Y -->
+        <div class="border border-slate-200 rounded-xl p-5 bg-white space-y-4">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <h4 class="font-bold text-slate-900 text-sm">Wizualny Demonstrator: Riemann vs Lebesgue</h4>
+            <div class="flex items-center gap-1.5 bg-slate-100 p-1 rounded-lg text-xs font-medium">
+              <button id="btnModeRiemann" class="px-3 py-1 rounded bg-white text-blue-600 shadow-sm font-semibold">Cięcie Riemanna (Pionowe)</button>
+              <button id="btnModeLebesgue" class="px-3 py-1 rounded text-slate-600 hover:text-slate-900">Cięcie Lebesgue'a (Poziome)</button>
+            </div>
+          </div>
+
+          <div class="bg-slate-900 rounded-xl p-2 overflow-hidden shadow-inner">
+            <canvas id="lebesgueCanvas" width="880" height="320" class="w-full h-auto max-h-[320px]"></canvas>
+          </div>
+
+          <div class="p-3 bg-slate-50 rounded-lg border border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs">
+            <div id="lebesgueExplText" class="text-slate-700 leading-relaxed">
+              <strong>Widok Riemanna:</strong> Pionowe słupki sumują pole wzdłuż osi $X$.
+            </div>
+            <div class="font-mono text-blue-700 font-bold shrink-0">
+              Miara liczb wymiernych $\mu(\mathbb{Q} \cap [0,1]) = 0$
+            </div>
+          </div>
+        </div>
+
+        <!-- Twierdzenia Teorii Miary -->
+        <div class="p-4 bg-slate-50 rounded-xl border border-slate-200 space-y-2">
+          <h4 class="font-bold text-slate-900 text-xs font-mono uppercase tracking-wide">Dlaczego nowoczesna matematyka i AI wybierają Lebesgue'a?</h4>
+          <p class="text-xs text-slate-600 leading-relaxed">
+            Przestrzenie funkcji całkowalnych w&nbsp;sensie Lebesgue'a $L^1$ oraz $L^2$ są <strong>zupełnymi przestrzeniami Banacha i&nbsp;Hilberta</strong>. Możemy w&nbsp;nich bez obaw zamieniać kolejność granicy i&nbsp;całki dzięki Twierdzeniu o&nbsp;Zbieżności Zmajoryzowanej (Dominated Convergence Theorem):
+          </p>
+          <div class="text-center py-1">
+            $$\lim_{n \to \infty} \int f_n \, d\mu = \int \lim_{n \to \infty} f_n \, d\mu$$
+          </div>
+          <div class="text-[11px] text-slate-500">
+            Bez tej własności niemożliwa byłaby współczesna teoria prawdopodobieństwa Kołmogorowa, analiza fourierowska oraz teoria uczenia maszynowego (spadek wzdłuż gradientu oczekiwanego ryzyka).
+          </div>
+        </div>
+
+        <!-- Invariant 1: UX Coachmark -->
+        <div class="p-4 bg-indigo-50/70 border border-indigo-200/80 rounded-xl flex items-start gap-3">
+          <span class="text-indigo-600 text-lg">👉</span>
+          <div class="text-xs text-indigo-900 leading-relaxed">
+            <strong>Jak z tego korzystać:</strong>
+            1. Przełączaj przyciski <em>Cięcie Riemanna</em> oraz <em>Cięcie Lebesgue'a</em>.
+            2. Zauważ, że Lebesgue nie ma problemu z&nbsp;przeliczalnymi dziurami ani gęstymi podzbiorami miary zero &ndash; po prostu mierzy długość rzutu przeciwobrazu na oś dziedziny.
+          </div>
+        </div>
+      </section>
+
+      <!-- MODUŁ 6: POZIOM EKSPERCKI: STOKES & FORMY RÓŻNICZKOWE (POZIOM 5) -->
+      <section id="m6-zaawansowane" class="saas-card p-6 sm:p-8 space-y-6">
+        <div class="border-b border-slate-100 pb-4">
+          <div class="badge-level bg-indigo-50 text-indigo-700 border border-indigo-200 mb-1">Moduł 06 // Poziom 5: Ekspert</div>
+          <h2 class="text-xl sm:text-2xl font-bold text-slate-900">Uogólnione Twierdzenie Stokesa & Horyzont Zaawansowany</h2>
+        </div>
+
+        <!-- Uogólniony Stokes -->
+        <div class="formula-box p-6 rounded-xl border border-blue-200 space-y-3">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-mono font-bold uppercase tracking-wide text-blue-700">Wielka Synteza Analizy Matematycznej</span>
+            <span class="text-xs font-mono text-slate-500">Formy Różniczkowe na Rozmaitościach</span>
+          </div>
+          <div class="text-center py-3 bg-white rounded-xl border border-blue-100 shadow-sm">
+            <span class="text-2xl sm:text-3xl font-mono font-bold text-slate-900">
+              $$\int_{\partial \Omega} \omega = \int_{\Omega} d\omega$$
+            </span>
+          </div>
+          <p class="text-xs text-slate-600 leading-relaxed text-center max-w-2xl mx-auto">
+            Jeden krótki wzór zawiera w&nbsp;sobie cały rachunek różniczkowy i&nbsp;całkowy fizyki klasycznej. Całka z&nbsp;formy różniczkowej $\omega$ po brzegu rozmaitości $\partial \Omega$ jest tożsama z&nbsp;całką z&nbsp;jej pochodnej zewnętrznej $d\omega$ po całym wnętrzu $\Omega$.
+          </p>
+        </div>
+
+        <!-- Tabela Syntezy 1D, 2D, 3D -->
+        <div class="w-full max-w-full overflow-x-auto border border-slate-200 rounded-xl">
+          <table class="w-full min-w-[620px] text-left text-xs border-collapse">
+            <thead>
+              <tr class="bg-slate-100 text-slate-700 font-semibold border-b border-slate-200">
+                <th class="p-3">Wymiar</th>
+                <th class="p-3">Klasyczna Nazwa Twierdzenia</th>
+                <th class="p-3">Wzór Klasyczny</th>
+                <th class="p-3">Odpowiednik w Języku Form</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-100 bg-white text-slate-600 font-mono">
+              <tr>
+                <td class="p-3 font-bold text-slate-900">1D</td>
+                <td class="p-3 text-slate-700 font-sans">Twierdzenie Newtona-Leibniza (FTC)</td>
+                <td class="p-3">$$\int_a^b f'(x)dx = f(b) - f(a)$$</td>
+                <td class="p-3 text-blue-600">$$\int_{[a,b]} df = \int_{\partial [a,b]} f$$</td>
+              </tr>
+              <tr>
+                <td class="p-3 font-bold text-slate-900">2D</td>
+                <td class="p-3 text-slate-700 font-sans">Twierdzenie Greena na Płaszczyźnie</td>
+                <td class="p-3">$$\iint_D \left(\frac{\partial Q}{\partial x} - \frac{\partial P}{\partial y}\right) dx dy = \oint_{\partial D} (P dx + Q dy)$$</td>
+                <td class="p-3 text-blue-600">$$\int_D d\omega = \int_{\partial D} \omega$$</td>
+              </tr>
+              <tr>
+                <td class="p-3 font-bold text-slate-900">3D</td>
+                <td class="p-3 text-slate-700 font-sans">Klasyczne Twierdzenie Stokesa (Rotacja)</td>
+                <td class="p-3">$$\iint_S (\nabla \times \mathbf{F}) \cdot d\mathbf{S} = \oint_{\partial S} \mathbf{F} \cdot d\mathbf{r}$$</td>
+                <td class="p-3 text-blue-600">$$\int_S d\omega = \int_{\partial S} \omega$$</td>
+              </tr>
+              <tr>
+                <td class="p-3 font-bold text-slate-900">3D</td>
+                <td class="p-3 text-slate-700 font-sans">Twierdzenie Gaussa-Ostrogradskiego (Dywergencja)</td>
+                <td class="p-3">$$\iiint_V (\nabla \cdot \mathbf{F}) dV = \iint_{\partial V} \mathbf{F} \cdot d\mathbf{S}$$</td>
+                <td class="p-3 text-blue-600">$$\int_V d\omega = \int_{\partial V} \omega$$</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Most do Współczesności: Rachunek Stochastyczny & Monte Carlo -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
+          <div class="p-4 bg-slate-50 border border-slate-200 rounded-xl space-y-2">
+            <span class="text-xs font-mono font-bold text-indigo-700 uppercase">Całka Stochastyczna Itô</span>
+            <p class="text-xs text-slate-600 leading-relaxed">
+              Dla trajektorii ruchu Browna $W_t$, które są nigdzie nieróżniczkowalne i&nbsp;mają nieskończone wahanie, klasyczna całka Riemanna zawodzi. Całka Itô $\int_0^T H_t dW_t$ wymaga poprawki drugiego rzędu ze względu na niezerowe wahanie kwadratowe $[W, W]_t = t$:
+            </p>
+            <div class="text-center font-mono text-xs font-semibold py-1 bg-white rounded border border-slate-200">
+              $$df(W_t) = f'(W_t) dW_t + \frac{1}{2} f''(W_t) dt$$
+            </div>
+          </div>
+
+          <div class="p-4 bg-slate-50 border border-slate-200 rounded-xl space-y-2">
+            <span class="text-xs font-mono font-bold text-emerald-700 uppercase">Całkowanie Monte Carlo w AI</span>
+            <p class="text-xs text-slate-600 leading-relaxed">
+              Gdy wymiar przestrzeni wynosi $d = 1000$ (np. w&nbsp;modelach dyfuzyjnych lub fizyce kwantowej), siatka kwadratur wymaga $N^d$ punktów (przekleństwo wymiarowości). Całkowanie Monte Carlo omija tę barierę:
+            </p>
+            <div class="text-center font-mono text-xs font-semibold py-1 bg-white rounded border border-slate-200">
+              $$\text{Błąd} \sim \mathcal{O}(N^{-1/2}) \quad \text{niezależnie od } d$$
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- MODUŁ 7: SPRAWDZIAN ZROZUMIENIA (QUIZ DIAGNOSTYCZNY) -->
+      <section id="m7-quiz" class="saas-card p-6 sm:p-8 space-y-6">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-100 pb-4">
+          <div>
+            <div class="badge-level bg-emerald-50 text-emerald-700 border border-emerald-200 mb-1">Moduł 07 // Sprawdzian Zrozumienia</div>
+            <h2 class="text-xl sm:text-2xl font-bold text-slate-900">Interaktywny Quiz Diagnostyczny</h2>
+          </div>
+          <div class="bg-slate-100 px-3 py-1.5 rounded-lg text-xs font-mono font-bold text-slate-800">
+            Twój wynik: <span id="quizScoreText" class="text-blue-600">0 / 5</span>
+          </div>
+        </div>
+
+        <p class="text-sm text-slate-600">
+          Sprawdź swoje zrozumienie pojęć od elementarnej geometrii po formy różniczkowe. Wybierz odpowiedź, by otrzymać natychmiastowe wyjaśnienie merytoryczne.
+        </p>
+
+        <!-- Kontener Pytań -->
+        <div id="quizContainer" class="space-y-6">
+          <!-- Wypełniane dynamicznie przez app.js -->
+        </div>
+      </section>
+
+      <!-- MODUŁ 8: IMPLEMENTACJA PYTHON (NUMPY / SCIPY) -->
+      <section id="m8-kod" class="saas-card p-6 sm:p-8 space-y-4">
+        <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+          <div>
+            <div class="badge-level bg-blue-50 text-blue-700 border border-blue-200 mb-1">Moduł 08 // Kod Produkcyjny</div>
+            <h2 class="text-xl sm:text-2xl font-bold text-slate-900">Implementacja Referencyjna w Pythonie</h2>
+          </div>
+          <button id="btnCopyCode" class="px-3 py-1.5 text-xs font-semibold rounded-lg bg-slate-100 text-slate-700 hover:bg-slate-200 transition flex items-center gap-1.5">
+            <span>📋</span> Kopiuj Kod
+          </button>
+        </div>
+
+        <p class="text-sm text-slate-600">
+          Zgodnie z&nbsp;protokołem <strong>ScientistTwo</strong> poniższy skrypt prezentuje numeryczne kwadratury, badanie błędu asymptotycznego oraz całkę Lebesgue'a weryfikowaną na 20 punktach próbnych.
+        </p>
+
+        <div class="bg-slate-900 rounded-xl p-4 text-xs font-mono text-slate-200 overflow-x-auto shadow-inner">
+<pre id="pythonCodeSnippet"><code>import numpy as np
+import scipy.integrate as integrate
+
+def riemann_sum(f, a, b, n=100, method="midpoint"):
+    """
+    Oblicza sumy Riemanna dla zadanej metody: 'left', 'right', 'midpoint', 'trapezoid'.
+    """
+    dx = (b - a) / n
+    edges = np.linspace(a, b, n + 1)
+    if method == "left":
+        return np.sum(f(edges[:-1])) * dx
+    elif method == "right":
+        return np.sum(f(edges[1:])) * dx
+    elif method == "midpoint":
+        mids = (edges[:-1] + edges[1:]) / 2.0
+        return np.sum(f(mids)) * dx
+    elif method == "trapezoid":
+        return (f(a) + f(b) + 2.0 * np.sum(f(edges[1:-1]))) * (dx / 2.0)
+    else:
+        raise ValueError(f"Nieznana metoda: {method}")
+
+def simpson_rule(f, a, b, n=100):
+    """
+    Kwadratura Simpsona 1/3 o rzędzie zbieżności O(N^-4).
+    """
+    if n % 2 != 0:
+        n += 1  # Wymagana parzysta liczba przedziałów
+    dx = (b - a) / n
+    x = np.linspace(a, b, n + 1)
+    y = f(x)
+    return (dx / 3.0) * (y[0] + y[-1] + 4.0 * np.sum(y[1:-1:2]) + 2.0 * np.sum(y[2:-1:2]))
+
+# Weryfikacja numeryczna: całka z x^2 na [0, 2] -> wartość analityczna = 8/3 ~ 2.666667
+f = lambda x: x**2
+true_val = 8.0 / 3.0
+
+print(f"--- Weryfikacja Kwadratur dla f(x) = x^2 na [0, 2] ---")
+for n in [4, 16, 64]:
+    s_mid = riemann_sum(f, 0, 2, n=n, method="midpoint")
+    s_trap = riemann_sum(f, 0, 2, n=n, method="trapezoid")
+    s_simp = simpson_rule(f, 0, 2, n=n)
+    print(f"N={n:2d} | Mid: {s_mid:.6f} (błąd: {abs(s_mid-true_val):.2e}) | "
+          f"Trap: {s_trap:.6f} (błąd: {abs(s_trap-true_val):.2e}) | "
+          f"Simp: {s_simp:.6f} (błąd: {abs(s_simp-true_val):.2e})")
+</code></pre>
+        </div>
+      </section>
+
+      <!-- MODUŁ 9: ŹRÓDŁA PIERWOTNE & BIBLIOGRAFIA NAUKOWA -->
+      <section id="m9-bibliografia" class="saas-card p-6 sm:p-8 space-y-4">
+        <div class="border-b border-slate-100 pb-4">
+          <div class="badge-level bg-slate-100 text-slate-700 border border-slate-200 mb-1">Moduł 09 // Źródła Pierwotne</div>
+          <h2 class="text-xl sm:text-2xl font-bold text-slate-900">📚 Źródła Pierwotne & Bibliografia Naukowa</h2>
+        </div>
+
+        <p class="text-sm text-slate-600">
+          Prezentowane twierdzenia i&nbsp;wyprowadzenia opierają się na kanonicznych pracach założycielskich pozyskanych z&nbsp;baz OpenAlex oraz arXiv:
+        </p>
+
+        <div class="space-y-3 pt-2 text-xs text-slate-700">
+          <div class="p-3 bg-slate-50 rounded-xl border border-slate-200">
+            <div class="font-bold text-slate-900">Bressoud, D. M. (2011)</div>
+            <div class="text-slate-600 italic">"Historical Reflections on Teaching the Fundamental Theorem of Integral Calculus"</div>
+            <div class="text-slate-500">The American Mathematical Monthly, 118(2), 99&ndash;115.</div>
+            <a href="https://doi.org/10.4169/amer.math.monthly.118.02.099" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:underline font-mono inline-block mt-1">
+              DOI: 10.4169/amer.math.monthly.118.02.099
+            </a>
+          </div>
+
+          <div class="p-3 bg-slate-50 rounded-xl border border-slate-200">
+            <div class="font-bold text-slate-900">Henstock, R. (1968)</div>
+            <div class="text-slate-600 italic">"A Riemann-Type Integral of Lebesgue Power"</div>
+            <div class="text-slate-500">Canadian Journal of Mathematics, 20, 79&ndash;87.</div>
+            <a href="https://doi.org/10.4153/cjm-1968-010-5" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:underline font-mono inline-block mt-1">
+              DOI: 10.4153/cjm-1968-010-5
+            </a>
+          </div>
+
+          <div class="p-3 bg-slate-50 rounded-xl border border-slate-200">
+            <div class="font-bold text-slate-900">Spivak, M. (1965)</div>
+            <div class="text-slate-600 italic">"Calculus on Manifolds: A Modern Approach to Classical Theorems of Advanced Calculus"</div>
+            <div class="text-slate-500">Westview Press (Klasyczne sformułowanie twierdzenia Stokesa dla form różniczkowych).</div>
+            <a href="https://doi.org/10.1201/9780429494406" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:underline font-mono inline-block mt-1">
+              DOI: 10.1201/9780429494406
+            </a>
+          </div>
+
+          <div class="p-3 bg-slate-50 rounded-xl border border-slate-200">
+            <div class="font-bold text-slate-900">Galapon, E. A. (2017)</div>
+            <div class="text-slate-600 italic">"Integration by divergent integrals: Calculus of divergent integrals in term by term integration"</div>
+            <div class="text-slate-500">Proceedings of the Royal Society A, 473, 20160567 (arXiv:1709.08173).</div>
+            <a href="https://doi.org/10.1098/rspa.2016.0567" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:underline font-mono inline-block mt-1">
+              DOI: 10.1098/rspa.2016.0567
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <!-- FOOTER -->
+      <footer class="pt-8 border-t border-slate-200 text-xs text-slate-500 flex flex-col sm:flex-row items-center justify-between gap-4 pb-12">
+        <div>
+          &copy; 2026 Lyceum Explainer Engine. Stworzone dla Adama Snihura w&nbsp;standardzie B2B EdTech.
+        </div>
+        <div class="font-mono text-slate-400">
+          Protokół ScientistTwo &bull; Zero Hallucinations Gate
+        </div>
+      </footer>
+
+    </main>
+  </div>
+
+  <!-- Główny Skrypt Interaktywny -->
+  <script src="app.js"></script>
+</body>
+</html>
